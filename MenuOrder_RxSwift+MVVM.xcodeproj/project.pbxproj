@@ -14,6 +14,9 @@
 		4E55CDB7264BC0CC00186B40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E55CDB6264BC0CC00186B40 /* Assets.xcassets */; };
 		4E55CDBA264BC0CC00186B40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E55CDB8264BC0CC00186B40 /* LaunchScreen.storyboard */; };
 		4E55CDCA264D57EF00186B40 /* ReceiptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55CDC9264D57EF00186B40 /* ReceiptViewController.swift */; };
+		4E55CDCD264E48B900186B40 /* APIServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55CDCC264E48B900186B40 /* APIServise.swift */; };
+		4E55CDD0264E493800186B40 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55CDCF264E493800186B40 /* MenuModel.swift */; };
+		4E55CDD3264E508100186B40 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E55CDD2264E508100186B40 /* MenuTableViewCell.swift */; };
 		DEC5E96DAC5238DE5601B44B /* Pods_MenuOrder_RxSwift_MVVM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A99EF1AEE9244C0BF6722D /* Pods_MenuOrder_RxSwift_MVVM.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +30,9 @@
 		4E55CDB9264BC0CC00186B40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4E55CDBB264BC0CC00186B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E55CDC9264D57EF00186B40 /* ReceiptViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptViewController.swift; sourceTree = "<group>"; };
+		4E55CDCC264E48B900186B40 /* APIServise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServise.swift; sourceTree = "<group>"; };
+		4E55CDCF264E493800186B40 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
+		4E55CDD2264E508100186B40 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
 		79E515586B382F08E7F5D98A /* Pods-MenuOrder_RxSwift+MVVM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MenuOrder_RxSwift+MVVM.release.xcconfig"; path = "Target Support Files/Pods-MenuOrder_RxSwift+MVVM/Pods-MenuOrder_RxSwift+MVVM.release.xcconfig"; sourceTree = "<group>"; };
 		A7FCB8E7F560EED26F7D30AC /* Pods-MenuOrder_RxSwift+MVVM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MenuOrder_RxSwift+MVVM.debug.xcconfig"; path = "Target Support Files/Pods-MenuOrder_RxSwift+MVVM/Pods-MenuOrder_RxSwift+MVVM.debug.xcconfig"; sourceTree = "<group>"; };
 		B6A99EF1AEE9244C0BF6722D /* Pods_MenuOrder_RxSwift_MVVM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MenuOrder_RxSwift_MVVM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,7 +81,10 @@
 			children = (
 				4E55CDAD264BC0CA00186B40 /* AppDelegate.swift */,
 				4E55CDAF264BC0CA00186B40 /* SceneDelegate.swift */,
+				4E55CDCF264E493800186B40 /* MenuModel.swift */,
+				4E55CDCC264E48B900186B40 /* APIServise.swift */,
 				4E55CDB1264BC0CA00186B40 /* MenuViewController.swift */,
+				4E55CDD2264E508100186B40 /* MenuTableViewCell.swift */,
 				4E55CDC9264D57EF00186B40 /* ReceiptViewController.swift */,
 				4E55CDB3264BC0CA00186B40 /* Main.storyboard */,
 				4E55CDB6264BC0CC00186B40 /* Assets.xcassets */,
@@ -209,6 +218,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E55CDB2264BC0CA00186B40 /* MenuViewController.swift in Sources */,
+				4E55CDCD264E48B900186B40 /* APIServise.swift in Sources */,
+				4E55CDD3264E508100186B40 /* MenuTableViewCell.swift in Sources */,
+				4E55CDD0264E493800186B40 /* MenuModel.swift in Sources */,
 				4E55CDCA264D57EF00186B40 /* ReceiptViewController.swift in Sources */,
 				4E55CDAE264BC0CA00186B40 /* AppDelegate.swift in Sources */,
 				4E55CDB0264BC0CA00186B40 /* SceneDelegate.swift in Sources */,
