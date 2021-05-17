@@ -11,31 +11,41 @@ let MENU_URL = "https://firebasestorage.googleapis.com/v0/b/rxswiftin4hours.apps
 
 class APIService {
     
-    static func loadMenu(completed: @escaping ([Menu]) -> Void, errored: @escaping (Error) -> Void) {
+    static func fetchMenuURL(completed: @escaping (Result<Data, Error>) -> Void) {
         
         let task = URLSession.shared.dataTask(with: URL(string: MENU_URL)!) { (data, response, error) in
             
             if let err = error {
-                errored(err)
+                completed(.failure(err))
                 return
             }
             
-            guard let data = data,
-               let json = try? JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
-               let list = json["menus"] as? [NSDictionary] else {
+            guard let data = data else {
                 
+                let httpResponse = response as! HTTPURLResponse
+                completed(.failure(NSError(domain: "no Data", code: httpResponse.statusCode, userInfo: nil)))
                 return
-            }
-            
-            var menus: [Menu] = []
-            
-            list.forEach{ value in
-                let menu = Menu(name: value["name"] as! String, price: value["price"] as! Int)
-                menus.append(menu)
             }
 
-            completed(menus)
+            completed(.success(data))
         }
         task.resume()
+    }
+    
+    static func jsonToMenus(data: Data) -> [Menu] {
+        
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
+              let list = json["menus"] as? [NSDictionary] else {
+            return []
+        }
+        
+        var menus: [Menu] = []
+        
+        list.forEach{ value in
+            let menu = Menu(name: value["name"] as! String, price: value["price"] as! Int, count: 0)
+            menus.append(menu)
+        }
+        
+        return menus
     }
 }

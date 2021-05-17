@@ -15,20 +15,24 @@ class MenuTableViewCell: UITableViewCell {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
+    var onChangeCount: ((Int) -> Void) = { _ in}
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func setData(_ menu: Menu) {
         nameLabel.text = menu.name
         priceLabel.text = "\(menu.price)"
+        countLabel.text = "\(menu.count)"
     }
 
+    @IBAction func onIncreaseCont(_ sender: UIButton) {
+        onChangeCount(1)
+    }
+    
+    @IBAction func onDecreaseCount(_ sender: UIButton) {
+        onChangeCount(-1)
+    }
 }
