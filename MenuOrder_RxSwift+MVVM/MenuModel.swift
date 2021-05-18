@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct Menu {
+struct Menu: Decodable {
     var name: String
     var price: Int
-    var count: Int
 }

@@ -150,10 +150,6 @@
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
-                                        <connections>
-                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="KW3-PP-whi"/>
-                                            <outlet property="delegate" destination="BYZ-38-t0r" id="nSr-nv-AgI"/>
-                                        </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B3V-OQ-8gB">
                                         <rect key="frame" x="0.0" y="639.5" width="414" height="130.5"/>
@@ -223,9 +219,6 @@
                                         <state key="normal" title="ORDER">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <connections>
-                                            <action selector="onOrder:" destination="BYZ-38-t0r" eventType="touchUpInside" id="H8r-aG-BqB"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -252,6 +245,7 @@
                         <outlet property="clearBtn" destination="yBg-8R-hso" id="paT-ZQ-0at"/>
                         <outlet property="indicatorView" destination="YWc-dP-4Xs" id="Slx-lD-EyW"/>
                         <outlet property="menuTableView" destination="Ruh-PL-zhq" id="zAb-LQ-ZNP"/>
+                        <outlet property="orderBtn" destination="JlT-hy-yIV" id="LXi-Eb-b0a"/>
                         <outlet property="orderItemCntLabel" destination="gXK-7K-bMM" id="tfS-qm-h80"/>
                         <outlet property="totalPriceLabel" destination="gdQ-D5-QEY" id="bqB-tp-Wei"/>
                         <segue destination="yYv-r0-qY5" kind="show" identifier="ReceiptViewController" id="adz-MG-uqr"/>
@@ -296,12 +290,8 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="1Og-mn-Twh"/>
                                                         </constraints>
-                                                        <string key="text">메뉴이름 0개
-메뉴이름 0개
-메뉴이름 0개
-메뉴이름 0개</string>
                                                         <color key="textColor" systemColor="labelColor"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="32"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="32"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     </textView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VlD-fP-Veq">

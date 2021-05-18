@@ -22,10 +22,10 @@ class MenuTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func setData(_ menu: Menu) {
-        nameLabel.text = menu.name
-        priceLabel.text = "\(menu.price)"
-        countLabel.text = "\(menu.count)"
+    func setData(_ item: (menu:Menu, cnt:Int)) {
+        nameLabel.text = item.menu.name
+        priceLabel.text = "\(item.menu.price)"
+        countLabel.text = "\(item.cnt)"
     }
 
     @IBAction func onIncreaseCont(_ sender: UIButton) {

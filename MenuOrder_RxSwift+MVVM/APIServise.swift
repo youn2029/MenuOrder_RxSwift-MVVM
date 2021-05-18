@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 let MENU_URL = "https://firebasestorage.googleapis.com/v0/b/rxswiftin4hours.appspot.com/o/fried_menus.json?alt=media&token=42d5cb7e-8ec4-48f9-bf39-3049e796c936"
 
@@ -32,20 +34,35 @@ class APIService {
         task.resume()
     }
     
-    static func jsonToMenus(data: Data) -> [Menu] {
+    static func jsonToMenus(data: Data) -> [(menu:Menu, cnt: Int)] {
         
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary,
-              let list = json["menus"] as? [NSDictionary] else {
+        struct Response: Decodable {
+            var menus: [Menu]
+        }
+        
+        guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
             return []
         }
         
-        var menus: [Menu] = []
+        return response.menus.map{ ($0, 0) }
+    }
+    
+    static func fetchMenuURLRx() -> Observable<Data> {
         
-        list.forEach{ value in
-            let menu = Menu(name: value["name"] as! String, price: value["price"] as! Int, count: 0)
-            menus.append(menu)
+        return Observable.create{ emitter in
+            
+            fetchMenuURL { result in
+                
+                switch result {
+                case .failure(let err):
+                    emitter.onError(err)
+                    
+                case .success(let data):
+                    emitter.onNext(data)
+                    emitter.onCompleted()
+                }
+            }
+            return Disposables.create()
         }
-        
-        return menus
     }
 }

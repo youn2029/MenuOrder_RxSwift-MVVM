@@ -14,7 +14,7 @@ class ReceiptViewController: UIViewController {
     @IBOutlet weak var vatPrice: UILabel!
     @IBOutlet weak var totalPrice: UILabel!
     
-    var orderList: [Menu]!
+    var orderList: [(menu:Menu, cnt:Int)]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +37,14 @@ class ReceiptViewController: UIViewController {
     func updateOrderInfo() {
         guard let list = orderList else { return }
         
-        let ItemPrice = list.map{ $0.price * $0.count }.reduce(0, +)
-        let vatItemPrice = Int(Double(ItemPrice) * 0.1)
+        let allItemText = list.map { "\($0.menu.name) \($0.cnt)개" }.joined(separator: "\n")
+        let itemPrice = list.map{ $0.menu.price * $0.cnt }.reduce(0, +)
+        let vatItemPrice = Int(Double(itemPrice) * 0.1)
         
-        itemsTextView.text = list.map { "\($0.name) \($0.count)개" }.joined(separator: "\n")
-        itemsPrice.text = ItemPrice.currencyKR()
+        itemsTextView.text = allItemText
+        itemsPrice.text = itemPrice.currencyKR()
         vatPrice.text = vatItemPrice.currencyKR()
-        totalPrice.text = Int(ItemPrice + vatItemPrice).currencyKR()
+        totalPrice.text = Int(itemPrice + vatItemPrice).currencyKR()
     }
     
     //MARK: - items TextView height
@@ -54,7 +55,7 @@ class ReceiptViewController: UIViewController {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)  // .greatestFiniteMegnitude : 최대 유한 크기
         let boundingBox = text.boundingRect(with: constraintRect,
                                             options: [.usesLineFragmentOrigin, .usesFontLeading],
-                                            attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 32, weight: .thin)],
+                                            attributes: [NSAttributedString.Key.font : font],
                                             context: nil)
         // .usesLineFragmentOrigin : 기준점 원점 대신 선 조각 원점 기준으로 함
         // .usesFontLeading : 폰트 행간을 사용하여 높이 계산
@@ -64,8 +65,10 @@ class ReceiptViewController: UIViewController {
     func updateTextHeight() {
         let height = heightWithConstrainedWidth(text: itemsTextView.text,
                                                 width: itemsTextView.bounds.width,
-                                                font: itemsTextView.font ?? .systemFont(ofSize: 32, weight: .thin))
-        itemsTextViewHeight.constant = height
+                                                font: itemsTextView.font ?? .systemFont(ofSize: 32))
+        
+        print("height : \(height), font : \(itemsTextView.font), text : \(itemsTextView.text)")
+        itemsTextViewHeight.constant = height + 40
     }
 
 }
