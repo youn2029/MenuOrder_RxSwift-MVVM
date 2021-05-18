@@ -26,6 +26,12 @@ class MenuViewController: UIViewController {
         updateOrderInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        onClear()
+    }
+    
     //MARK: - UI Setting
     func setRefresh() {
         let refresh = UIRefreshControl()
@@ -68,7 +74,7 @@ class MenuViewController: UIViewController {
         let totalPrice = menus.map{ $0.price * $0.count }.reduce(0, +)
         
         orderItemCntLabel.text = "\(totalCnt)"
-        totalPriceLabel.text = "\(totalPrice)"
+        totalPriceLabel.text = totalPrice.currencyKR()
     }
     
     func showAlert(title: String, msg: String) {
@@ -80,7 +86,7 @@ class MenuViewController: UIViewController {
     }
     
     //MARK: - IBAction
-    @IBAction func onClear(_ sender: Any) {
+    @IBAction func onClear() {
         (0..<menus.count).forEach{ menus[$0].count = 0 }
         menuTableView.reloadData()
         updateOrderInfo()
@@ -90,16 +96,16 @@ class MenuViewController: UIViewController {
         guard let id = segue.identifier,
               id == "ReceiptViewController",
               let receiptVC = segue.destination as? ReceiptViewController,
-              let data = sender as? String else {
+              let data = sender as? [Menu] else {
             return
         }
         
-        receiptVC.item = data
+        receiptVC.orderList = data
     }
 
     @IBAction func onOrder(_ sender: Any) {
-        let data = "성공"
-        performSegue(withIdentifier: "ReceiptViewController", sender: data)
+        let orderList = menus.filter{ $0.count > 0 }
+        performSegue(withIdentifier: "ReceiptViewController", sender: orderList)
     }
 }
 
