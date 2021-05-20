@@ -8,6 +8,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import RxViewController
 
 /*
  
@@ -32,6 +33,8 @@ import RxSwift
  
  RxCocoa에서 제공하는 설정값은 Binder로 RxSwift의 bind(to:)를 통해 사용 가능하다
  Binder는 순환 참조 없이 데이터를 그래도 전달한다.
+ 
+ - 라이브러리 추가 -> RxViewController : ViewController의 LifeCycle을 controllEvent로 사용 가능하게 해줌
  */
 
 class MenuViewController: UIViewController {
@@ -48,12 +51,6 @@ class MenuViewController: UIViewController {
         
         fetchMenusRx()
         updateOrderInfoRx()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        onClear()
     }
     
     //MARK: - UI Logic
@@ -113,11 +110,16 @@ class MenuViewController: UIViewController {
         menuTableView.refreshControl = refresh
         
         // clear버튼 이벤트 처리
-        clearBtn.rx.controlEvent(.touchUpInside)
+        Observable.merge([rx.viewWillAppear.map{ _ in }, clearBtn.rx.tap.map{ _ in}])
             .withLatestFrom(menuSubject)
             .map{ $0.map{ ($0.menu, 0) } }
             .bind(to: menuSubject)
             .disposed(by: disposeBag)
+        /*
+         - marge() : 두 개 이상의 옵져버블을 하나의 옵져버블로 병합한다.
+         - rx.viewWillAppear : viewWillAppear을 controlEvent로 사용 가능하게 해줌
+         - map : return 값이 Observable<Result>이기에 Observable로 변환하기 위해 사용
+         */
         
         // order버튼 이벤트 처리
         orderBtn.rx.tap
@@ -134,15 +136,19 @@ class MenuViewController: UIViewController {
                 self?.performSegue(withIdentifier: $0, sender: nil)
             })
             .disposed(by: disposeBag)
+        /*
+         - rx.controlEvent() : event
+         - withLatestFrom() : 두 개의 옵저버블을 합치는 operator (CombineLatest의 설명과 같음)
+            rx에 사용이 되면 동작하는 데이터를 사용하는게 가능
+         
+         - do() : 옵져버블 life cycle 이벤트에 대해 수행할 작업 등록
+         
+         - bind(to:) : parameter로 subject가 들어가면 subject의 데이터를 onNext하는 것
+         */
         
     }
     
     //MARK: - IBAction
-    @IBAction func onClear() {
-//        (0..<menus.count).forEach{ menus[$0].count = 0 }
-//        menuSubject.onNext(menus)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let id = segue.identifier,
               id == "ReceiptViewController",
@@ -152,8 +158,6 @@ class MenuViewController: UIViewController {
         }
 
         let parameter = item.filter{ $0.cnt > 0 }
-        print("parameter : \(parameter)")
-        print("menus : \(self.menus.filter{ $0.cnt > 0})")
         receiptVC.orderList = parameter
     }
     
@@ -162,10 +166,9 @@ class MenuViewController: UIViewController {
     var menus: [(menu:Menu, cnt: Int)] = []     // cnt 수정을 위해 menu에 cnt를 넣었던 걸, 밖으로 뺌
     var disposeBag = DisposeBag()
     
-    lazy var menuSubject = BehaviorSubject<[(menu:Menu, cnt:Int)]>(value: [])
+    var menuSubject = BehaviorSubject<[(menu:Menu, cnt:Int)]>(value: [])
     
     func fetchMenusRx() {
-        
         indicatorView.isHidden = false
         indicatorView.startAnimating()
         

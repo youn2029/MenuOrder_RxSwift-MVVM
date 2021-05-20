@@ -7,6 +7,7 @@ target 'MenuOrder_RxSwift+MVVM' do
 
    pod 'RxSwift'
    pod 'RxCocoa'
+   pod 'RxViewController'
 
   # Pods for MenuOrder_RxSwift+MVVM
 
