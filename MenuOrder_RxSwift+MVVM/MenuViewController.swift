@@ -46,6 +46,8 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var totalPriceLabel: UILabel!
     @IBOutlet weak var orderBtn: UIButton!
     
+    var menuVM = MenuViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,17 +89,25 @@ class MenuViewController: UIViewController {
         
         
         // order Item Count -> orderItemCntLabel
-        menuSubject
-            .map{ "\($0.map{ $0.cnt }.reduce(0, +))" }
-            .observe(on: MainScheduler.instance)
+//        menuSubject
+//            .map{ "\($0.map{ $0.cnt }.reduce(0, +))" }
+//            .observe(on: MainScheduler.instance)
+//            .bind(to: orderItemCntLabel.rx.text)
+//            .disposed(by: disposeBag)
+        
+        menuVM.itemCount()
             .bind(to: orderItemCntLabel.rx.text)
             .disposed(by: disposeBag)
         
         // order Total Price -> totalPriceLabel
-        menuSubject
-            .map{ $0.map{ $0.menu.price * $0.cnt }.reduce(0, +) }
-            .map{ $0.currencyKR() }
-            .observe(on: MainScheduler.instance)
+//        menuSubject
+//            .map{ $0.map{ $0.menu.price * $0.cnt }.reduce(0, +) }
+//            .map{ $0.currencyKR() }
+//            .observe(on: MainScheduler.instance)
+//            .bind(to: totalPriceLabel.rx.text)
+//            .disposed(by: disposeBag)
+        
+        menuVM.totalPrice()
             .bind(to: totalPriceLabel.rx.text)
             .disposed(by: disposeBag)
         
