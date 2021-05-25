@@ -95,7 +95,7 @@ class MenuViewController: UIViewController {
 //            .bind(to: orderItemCntLabel.rx.text)
 //            .disposed(by: disposeBag)
         
-        menuVM.itemCount()
+        menuVM.itemCount
             .bind(to: orderItemCntLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -107,7 +107,7 @@ class MenuViewController: UIViewController {
 //            .bind(to: totalPriceLabel.rx.text)
 //            .disposed(by: disposeBag)
         
-        menuVM.totalPrice()
+        menuVM.totalPrice
             .bind(to: totalPriceLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -120,7 +120,10 @@ class MenuViewController: UIViewController {
         menuTableView.refreshControl = refresh
         
         // clear버튼 이벤트 처리
-        Observable.merge([rx.viewWillAppear.map{ _ in }, clearBtn.rx.tap.map{ _ in}])
+        let viewWillAppear = rx.viewWillAppear.map{ _ in }
+        let clearBtnTap = clearBtn.rx.tap.map{ _ in }
+        
+        Observable.merge([viewWillAppear, clearBtnTap])
             .withLatestFrom(menuSubject)
             .map{ $0.map{ ($0.menu, 0) } }
             .bind(to: menuSubject)
@@ -130,6 +133,9 @@ class MenuViewController: UIViewController {
          - rx.viewWillAppear : viewWillAppear을 controlEvent로 사용 가능하게 해줌
          - map : return 값이 Observable<Result>이기에 Observable로 변환하기 위해 사용
          */
+//        Observable.merge([viewWillAppear, clearBtnTap])
+//            .bind(to: menuVM.clearItem)
+//            .disposed(by: disposeBag)
         
         // order버튼 이벤트 처리
         orderBtn.rx.tap
